@@ -2,13 +2,17 @@ const express = require('express');
 const app = express();
 const {port} = require('./app/config')
 const apiRouter = require('./app/routes/api')
+const bodyParser = require('body-parser')
+const Cors = require('cors')
+
+// db
+require('./app/db/mongoose')
+
+app.use(Cors());
+app.use(bodyParser.json())
 
 // routes
 app.use('/api', apiRouter)
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-});
 
 // server
 app.listen(port, function () {
