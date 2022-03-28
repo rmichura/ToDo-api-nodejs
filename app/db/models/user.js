@@ -1,19 +1,20 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const randomstring = require('randomstring');
 
 const userSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
-        required: true,
+        // required: true,
     },
     lastName: {
         type: String,
-        required: true,
+        // required: true,
     },
     address: {
         type: String,
-        required: true,
+        // required: true,
     },
     email: {
         type: String,
@@ -28,7 +29,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         minlength: [4],
-    }
+    },
+    apiToken: String,
 });
 
 userSchema.pre('save', function (next) {
@@ -46,6 +48,14 @@ userSchema.post('save', function (error, doc, next) {
             }};
     }
     next(error);
+})
+
+userSchema.pre('save', function (next) {
+    const user = this;
+    if (user.isNew) {
+        user.apiToken = randomstring.generate(50);
+    }
+    next();
 })
 
 userSchema.methods = {
