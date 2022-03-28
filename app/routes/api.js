@@ -3,12 +3,15 @@ const router = express.Router();
 
 const userController = require('../controllers/user-controller')
 const taskController = require('../controllers/task-controller')
+const loginController = require('../controllers/login-controller')
 
 router.get('/user/:id', userController.getUserId)
 
 router.delete('/user/:id', userController.deleteUser)
 
 router.post('/user', userController.createUser)
+
+router.post('/login', loginController.login)
 
 router.get('/users', userController.getUserAll)
 
