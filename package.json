@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "mongodb": "^4.1.4",
     "mongoose": "^6.0.12",
-    "randomstring": "^1.2.1"
+    "randomstring": "^1.2.2",
+    "vue": "^3.2.26"
   }
 }
