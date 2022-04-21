@@ -6,15 +6,12 @@ const userSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
-        // required: true,
     },
     lastName: {
         type: String,
-        // required: true,
     },
     address: {
         type: String,
-        // required: true,
     },
     email: {
         type: String,
@@ -43,9 +40,11 @@ userSchema.pre('save', function (next) {
 
 userSchema.post('save', function (error, doc, next) {
     if (error.code === 11000) {
-        error.errors = { email: {
-            message: 'We already have such an e-mail'
-            }};
+        error.errors = {
+            email: {
+                message: 'We already have such an e-mail'
+            }
+        };
     }
     next(error);
 })

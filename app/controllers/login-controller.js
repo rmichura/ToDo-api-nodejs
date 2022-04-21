@@ -13,7 +13,7 @@ class LoginController {
                 throw new Error('password not valid');
             }
 
-            res.status(200).json({apiToken: user.apiToken});
+            res.status(200).json({apiToken: user.apiToken, _id: user._id});
         } catch (e) {
             res.sendStatus(401);
         }

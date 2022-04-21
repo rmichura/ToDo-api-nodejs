@@ -34,8 +34,8 @@ class UserController {
     }
 
     async editUser(req, res) {
-        const {email} = req.params;
-        const user = await User.findOne({email})
+        const id = req.params.id;
+        const user = await User.findById(id)
         if (req.body.name) user.name = req.body.name;
         if (req.body.lastName) user.lastName = req.body.lastName;
         if (req.body.address) user.address = req.body.address;

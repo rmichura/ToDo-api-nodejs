@@ -15,7 +15,7 @@ router.post('/login', loginController.login)
 
 router.get('/users', userController.getUserAll)
 
-router.put('/user/:email', userController.editUser)
+router.put('/user/:id', userController.editUser)
 
 
 router.get('/task/:id', taskController.getTaskId)
