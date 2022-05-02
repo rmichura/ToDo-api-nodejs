@@ -27,6 +27,7 @@
               label="Password"
               hint="At least 8 characters"
               @click:append="show = !show"
+              @keyup.enter="loginUser"
             ></v-text-field>
             <v-row class="justify-center">
               If you haven't account, register here

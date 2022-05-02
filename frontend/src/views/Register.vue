@@ -37,6 +37,7 @@
               label="Confirm Password"
               hint="At least 8 characters"
               @click:append="showConfirm = !showConfirm"
+              @keyup.enter="creatUser"
             ></v-text-field>
             <v-row class="justify-center ma-10">
               <v-btn
