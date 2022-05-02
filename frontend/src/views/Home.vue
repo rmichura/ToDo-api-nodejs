@@ -8,14 +8,16 @@
         color="primary"
         elevation="7"
         large
+        v-if="!auth"
         @click="toSignIn"
       >
         Get started
         <v-icon
           class="ma-1"
-      >
+        >
           mdi-arrow-right
-        </v-icon></v-btn>
+        </v-icon>
+      </v-btn>
     </v-row>
   </v-container>
 </template>
@@ -25,7 +27,11 @@ import router from "@/router";
 
 export default {
   name: "Main",
-
+  computed: {
+    auth() {
+      return this.$store.getters.isAuth;
+    }
+  },
   methods: {
     toSignIn() {
       router.push('/login')
