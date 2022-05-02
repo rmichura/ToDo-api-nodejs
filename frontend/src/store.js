@@ -12,12 +12,14 @@ export default new Vuex.Store({
     token: null,
     userId: null,
     emailUser: null,
+    tasks: []
   },
   getters: {
     isAuth: state => state.token !== null,
     getEmailUser(state) {
       return state.emailUser
     },
+    getAllTasks: state => state.tasks
   },
   mutations: {
     auth(state, payload) {
@@ -30,6 +32,9 @@ export default new Vuex.Store({
     },
     setEmail(state, payload) {
       state.emailUser = payload.emailUser;
+    },
+    setTasks(state, payload) {
+      state.tasks = payload.tasks;
     },
   },
   actions: {
@@ -124,6 +129,35 @@ export default new Vuex.Store({
       try {
         const userId = localStorage.getItem('userId');
         await axios.put(`${API}user/${userId}`, payload)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    async saveTask({commit}, payload) {
+      try {
+        await axios.post(`${API}task`, payload)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    async getTasks({commit}) {
+      try {
+        let {data} = await axios.get(`${API}tasks`)
+        commit('setTasks', {
+          tasks: data.tasks
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    async removeTask({state}, id) {
+      try {
+        const idTask = state.tasks[id]._id
+        await axios.delete(`${API}task/${idTask}`)
+        state.tasks.splice(id, 1)
       } catch (e) {
         console.log(e)
       }

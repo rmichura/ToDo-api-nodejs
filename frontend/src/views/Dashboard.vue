@@ -9,6 +9,8 @@
           <v-text-field
             elevation="8"
             label="Type your task"
+            v-model="task"
+            @keyup.enter="addTask"
           >
 
           </v-text-field>
@@ -18,6 +20,8 @@
             class="ma-2"
             elevation="6"
             color="primary"
+            v-if="getTask"
+            @click="addTask"
           >
             Add
           </v-btn>
@@ -33,11 +37,12 @@
           color="silver"
           height="50"
           elevation="8"
+          v-for="(task, index) in tasks" :key="index"
         >
           <v-card-text
             v-bind:class="show ? 'text-decoration-line-through' : 'text-decoration-line-through-off'"
           >
-            ala ma kota
+            {{ task.text }}
           </v-card-text>
           <v-row>
             <v-spacer></v-spacer>
@@ -63,6 +68,7 @@
               class="button"
               small
               color="red"
+              @click="removeTask(index)"
             >
               <v-icon
                 color="white"
@@ -77,16 +83,46 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "Dashboard",
   data() {
     return {
-      show: false
+      show: false,
+      task: '',
     }
+  },
+  computed: {
+    ...mapGetters({
+      tasks: "getAllTasks",
+    }),
+    getTask() {
+      return this.$store.dispatch('getTasks')
+    },
   },
   methods: {
     doneTask() {
       this.show = true
+    },
+    async addTask() {
+      if (this.task !== '') {
+        await this.$store.dispatch('saveTask', {
+          text: this.task
+        })
+        this.tasks.push({
+          text: this.task
+        })
+        this.task = ''
+        this.$router.go(0)
+      } else {
+        alert('Task is required')
+      }
+    },
+    async removeTask(id) {
+      if (id >= 0) {
+        await this.$store.dispatch('removeTask', id)
+      }
     }
   }
 }
