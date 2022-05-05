@@ -161,6 +161,16 @@ export default new Vuex.Store({
       } catch (e) {
         console.log(e)
       }
+    },
+
+    async doneTask({state}, [id, payload]) {
+      try {
+        const idTask = state.tasks[id]._id
+        await axios.put(`${API}task/${idTask}`, payload)
+        state.tasks[id].done = true
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 })

@@ -40,7 +40,7 @@
           v-for="(task, index) in tasks" :key="index"
         >
           <v-card-text
-            v-bind:class="show ? 'text-decoration-line-through' : 'text-decoration-line-through-off'"
+            v-bind:class="task.done ? 'text-decoration-line-through' : 'text-decoration-line-through-off'"
           >
             {{ task.text }}
           </v-card-text>
@@ -50,7 +50,7 @@
               class="button"
               small
               color="primary"
-              @click="doneTask"
+              @click="doneTask(index)"
             >
               <v-icon>mdi-check</v-icon>
             </v-btn>
@@ -89,8 +89,8 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      show: false,
       task: '',
+      done: false
     }
   },
   computed: {
@@ -102,13 +102,18 @@ export default {
     },
   },
   methods: {
-    doneTask() {
-      this.show = true
+    async doneTask(id) {
+      await this.$store.dispatch('doneTask', [id, {
+        done: true,
+        text: this.task
+      }])
     },
+
     async addTask() {
       if (this.task !== '') {
         await this.$store.dispatch('saveTask', {
-          text: this.task
+          text: this.task,
+          done: this.done
         })
         this.tasks.push({
           text: this.task
