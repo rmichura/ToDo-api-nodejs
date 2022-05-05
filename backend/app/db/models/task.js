@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    title: {
-        type: String,
-        required: true,
+    done: {
+        type: Boolean,
+        required: true
     },
     text: {
         type: String,

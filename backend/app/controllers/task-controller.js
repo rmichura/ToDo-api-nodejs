@@ -5,7 +5,7 @@ class TaskController {
     async createTask(req, res) {
         const task = new Task({
             _id: new mongoose.Types.ObjectId(),
-            title: req.body.title,
+            done: req.body.done,
             text: req.body.text,
         });
         await task.save().then(result => {
@@ -14,7 +14,7 @@ class TaskController {
                 message: 'Created task successfully',
                 createdTask: {
                     _id: result._id,
-                    title: result.title,
+                    done: result.done,
                     text: result.text
                 }
             })
@@ -28,8 +28,8 @@ class TaskController {
 
     async editTask(req, res) {
         const { id } = req.params;
-        const task = await Task.findOne({id})
-        if (req.body.title) task.title = req.body.title;
+        const task = await Task.findById(id)
+        if (req.body.done) task.done = req.body.done;
         if (req.body.text) task.text = req.body.text;
 
         await task.save().then(result => {
@@ -38,7 +38,7 @@ class TaskController {
                 message: 'Edited task successfully',
                 editedTask: {
                     _id: result._id,
-                    title: result.title,
+                    done: result.done,
                     text: result.text
                 }
             })
@@ -78,7 +78,7 @@ class TaskController {
                 tasks: docs.map(doc => {
                     return {
                         _id: doc._id,
-                        title: doc.title,
+                        done: doc.done,
                         text: doc.text
                     }
                 })
