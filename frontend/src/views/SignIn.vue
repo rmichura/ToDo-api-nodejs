@@ -81,7 +81,11 @@ export default {
           email: this.email,
           password: this.password
         })
-        this.goTo()
+        if (localStorage.getItem('token')) {
+          this.goTo()
+        } else {
+          alert('We dont have such account')
+        }
       } else {
         alert('Something went wrong')
       }
