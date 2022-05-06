@@ -171,6 +171,15 @@ export default new Vuex.Store({
       } catch (e) {
         console.log(e)
       }
+    },
+
+    async editTask({state}, [id, payload]) {
+      try {
+        const idTask = state.tasks[id]._id
+        await axios.put(`${API}task/${idTask}`, payload)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 })

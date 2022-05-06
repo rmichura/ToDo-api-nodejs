@@ -41,40 +41,34 @@
         >
           <v-card-text
             v-bind:class="task.done ? 'text-decoration-line-through' : 'text-decoration-line-through-off'"
+            class="col-6 text-truncate"
           >
             {{ task.text }}
           </v-card-text>
           <v-row>
             <v-spacer></v-spacer>
-            <v-btn
-              class="button"
-              small
-              color="primary"
-              @click="doneTask(index)"
-            >
-              <v-icon>mdi-check</v-icon>
-            </v-btn>
-            <v-btn
-              class="button"
-              small
-              color="green"
-            >
-              <v-icon
-                color="white"
-              >mdi-pencil
-              </v-icon>
-            </v-btn>
-            <v-btn
-              class="button"
-              small
-              color="red"
-              @click="removeTask(index)"
-            >
-              <v-icon
-                color="white"
-              >mdi-delete
-              </v-icon>
-            </v-btn>
+            <template>
+              <v-btn
+                small
+                class="button"
+                color="primary"
+                @click="doneTask(index)"
+              >
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <editing-task :name='task.text' :can-edit='task.done' :indexTask="index"/>
+              <v-btn
+                class="button"
+                small
+                color="red"
+                @click="removeTask(index)"
+              >
+                <v-icon
+                  color="white"
+                >mdi-delete
+                </v-icon>
+              </v-btn>
+            </template>
           </v-row>
         </v-card>
       </v-col>
@@ -84,13 +78,16 @@
 
 <script>
 import {mapGetters} from "vuex";
+import EditingTask from "@/components/EditingTask";
 
 export default {
   name: "Dashboard",
+  components: {EditingTask},
   data() {
     return {
       task: '',
-      done: false
+      done: false,
+      canEdit: true,
     }
   },
   computed: {
@@ -105,8 +102,8 @@ export default {
     async doneTask(id) {
       await this.$store.dispatch('doneTask', [id, {
         done: true,
-        text: this.task
       }])
+      this.canEdit = false
     },
 
     async addTask() {
@@ -124,6 +121,7 @@ export default {
         alert('Task is required')
       }
     },
+
     async removeTask(id) {
       if (id >= 0) {
         await this.$store.dispatch('removeTask', id)
@@ -146,6 +144,5 @@ export default {
 .margin-between-tasks {
   margin-top: 2em;
 }
-
 
 </style>
