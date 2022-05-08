@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from "axios";
 import router from "@/router";
 
-const API = `http://localhost:3000/api/`
+const API = `https://todo-rmichura-backend-app.herokuapp.com/api/` || `http://localhost:3000/api/`
 
 Vue.use(Vuex)
 
