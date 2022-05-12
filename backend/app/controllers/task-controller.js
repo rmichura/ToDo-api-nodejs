@@ -5,6 +5,7 @@ class TaskController {
     async createTask(req, res) {
         const task = new Task({
             _id: new mongoose.Types.ObjectId(),
+            user: req.body.user,
             done: req.body.done,
             text: req.body.text,
         });
@@ -14,6 +15,7 @@ class TaskController {
                 message: 'Created task successfully',
                 createdTask: {
                     _id: result._id,
+                    user: result.user,
                     done: result.done,
                     text: result.text
                 }
@@ -78,6 +80,7 @@ class TaskController {
                 tasks: docs.map(doc => {
                     return {
                         _id: doc._id,
+                        user: doc.user,
                         done: doc.done,
                         text: doc.text
                     }
@@ -90,6 +93,13 @@ class TaskController {
                     error: err
                 })
             })
+    }
+
+    async getTaskQuery(req, res) {
+        const query = req.query
+        const task = await Task.find(query);
+
+        res.status(200).json(task);
     }
 
     async deleteTask(req, res) {

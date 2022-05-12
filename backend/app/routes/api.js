@@ -26,6 +26,8 @@ router.post('/task', taskController.createTask)
 
 router.get('/tasks', taskController.getTaskAll)
 
+router.get('/task', taskController.getTaskQuery)
+
 router.put('/task/:id', taskController.editTask)
 
 
