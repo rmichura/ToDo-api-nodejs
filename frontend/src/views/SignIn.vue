@@ -30,8 +30,10 @@
               @keyup.enter="loginUser"
             ></v-text-field>
             <v-row class="justify-center">
-              If you haven't account, register here
+              <span class="without-account">
+                If you haven't account, register here
               <router-link to="/register">click me</router-link>
+                </span>
             </v-row>
             <v-row class="justify-center ma-16">
               <v-btn
@@ -100,7 +102,14 @@ export default {
 <style>
 
 .emailMargin {
-  margin-top: 3em;
+  margin-top: 2em;
+}
+
+.without-account {
+  text-align: center;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 1em;
 }
 
 </style>

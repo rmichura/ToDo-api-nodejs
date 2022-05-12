@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import axios from "axios";
 import router from "@/router";
 
-const API = `https://todo-rmichura-backend-app.herokuapp.com/api/` || `http://localhost:3000/api/`
+const API = `https://todo-rmichura-backend-app.herokuapp.com/api/`
+// const API = `http://localhost:3000/api/`
 
 Vue.use(Vuex)
 
@@ -97,17 +98,7 @@ export default new Vuex.Store({
 
     async register({commit}, payload) {
       try {
-        let response = await axios.post(`${API}user`, payload)
-        commit('auth', {
-          token: response.data.apiToken,
-          userId: response.data.userId
-        })
-
-        const now = new Date();
-        const endDate = new Date(now.getTime() + 30 * 60000);
-        localStorage.setItem('token', response.data.apiToken);
-        localStorage.setItem('userId', response.data._id);
-        localStorage.setItem('expires', endDate);
+        await axios.post(`${API}user`, payload)
       } catch (e) {
         console.log(e)
       }
@@ -144,9 +135,10 @@ export default new Vuex.Store({
 
     async getTasks({commit}) {
       try {
-        let {data} = await axios.get(`${API}tasks`)
+        const userId = localStorage.getItem('userId');
+        let { data } = await axios.get(`${API}task?user=${userId}`)
         commit('setTasks', {
-          tasks: data.tasks
+          tasks: data
         })
       } catch (e) {
         console.log(e)

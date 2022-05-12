@@ -47,7 +47,49 @@
           </v-card-text>
           <v-row>
             <v-spacer></v-spacer>
-            <template>
+
+            <template v-if="$vuetify.breakpoint.width < 600">
+              <v-btn
+                class="button"
+                small
+                color="primary"
+                @click="openDrawer(index)"
+              >
+                <v-icon>mdi-menu</v-icon>
+              </v-btn>
+
+              <v-navigation-drawer
+                v-model="drawer"
+                absolute
+                temporary
+              >
+                <v-list-item>
+                  <v-btn
+                    small
+                    class="button-drawer"
+                    color="primary"
+                    @click="doneTask(index)"
+                  >
+                    <v-icon>mdi-check</v-icon>
+                  </v-btn>
+                  <editing-task :name='task.text' :can-edit='task.done' :indexTask="index" class="button-edit"/>
+                  <v-btn
+                    small
+                    class="button-drawer"
+                    color="red"
+                    @click="removeTask(index)"
+                  >
+                    <v-icon
+                      color="white"
+                    >mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </v-list-item>
+              </v-navigation-drawer>
+            </template>
+
+
+            <template v-else>
               <v-btn
                 small
                 class="button"
@@ -56,7 +98,7 @@
               >
                 <v-icon>mdi-check</v-icon>
               </v-btn>
-              <editing-task :name='task.text' :can-edit='task.done' :indexTask="index"/>
+              <editing-task :name='task.text' :can-edit='task.done'/>
               <v-btn
                 class="button"
                 small
@@ -83,11 +125,18 @@ import EditingTask from "@/components/EditingTask";
 export default {
   name: "Dashboard",
   components: {EditingTask},
+  watch: {
+    group () {
+      this.drawer = false
+    },
+  },
   data() {
     return {
       task: '',
       done: false,
       canEdit: true,
+      drawer: null,
+      group: null
     }
   },
   computed: {
@@ -106,9 +155,15 @@ export default {
       this.canEdit = false
     },
 
+    openDrawer(index) {
+      this.drawer = !this.drawer
+      console.log(index)
+    },
+
     async addTask() {
       if (this.task !== '') {
         await this.$store.dispatch('saveTask', {
+          user: this.$store.state.userId,
           text: this.task,
           done: this.done
         })
@@ -143,6 +198,15 @@ export default {
 
 .margin-between-tasks {
   margin-top: 2em;
+}
+
+.button-edit {
+  margin-top: 4.5em;
+  margin-left: 2em;
+}
+
+.button-drawer {
+  margin-left: 1em;
 }
 
 </style>

@@ -9,7 +9,7 @@
         <v-btn
           text
         >
-          <span class="mr-2">Home</span>
+          <span>Home</span>
         </v-btn>
       </router-link>
     </div>
@@ -21,7 +21,7 @@
         text
         v-if="!auth"
       >
-        <span class="mr-2">Sign In</span>
+        <span>Sign In</span>
       </v-btn>
     </router-link>
 
@@ -30,7 +30,7 @@
         text
         v-if="!auth"
       >
-        <span class="mr-2">Sign Up</span>
+        <span>Sign Up</span>
       </v-btn>
     </router-link>
 
@@ -39,7 +39,7 @@
         text
         v-if="auth"
       >
-        <span class="mr-2">Todo</span>
+        <span>Todo</span>
       </v-btn>
     </router-link>
 
@@ -48,7 +48,7 @@
         text
         v-if="auth"
       >
-        <span class="mr-2">My profile</span>
+        <span>My profile</span>
       </v-btn>
     </router-link>
 
@@ -58,7 +58,7 @@
         v-if="auth"
         @click="logOut"
       >
-        <span class="mr-2">Log out</span>
+        <span>Log out</span>
       </v-btn>
     </router-link>
   </v-app-bar>

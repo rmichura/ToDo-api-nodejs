@@ -8,7 +8,7 @@
       <v-btn
         color="green"
         small
-        class="button"
+        :class="[$vuetify.breakpoint.width < 600 ? buttonDrawerClass : buttonClass]"
         v-bind="attrs"
         v-on="on"
         :disabled="canEdit"
@@ -55,6 +55,8 @@ export default {
     return {
       edit: false,
       editTask: '',
+      buttonClass: 'button',
+      buttonDrawerClass: 'button-drawer'
     }
   },
   methods: {
@@ -75,6 +77,10 @@ export default {
 .button {
   margin-top: -2.5em;
   margin-right: 1.5em;
+}
+
+.button-drawer {
+  margin-left: 1em;
 }
 
 .margin-card {

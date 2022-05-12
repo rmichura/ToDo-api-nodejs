@@ -42,9 +42,9 @@ export default {
 
 <style scoped>
 span {
+  text-align: center;
   font-size: 50px;
-  margin-top: 5em;
+  margin-top: 4em;
   margin-bottom: 1em;
-  /*color: rgb(25, 115, 205);*/
 }
 </style>
