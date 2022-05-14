@@ -9,9 +9,9 @@
         color="green"
         small
         :class="[$vuetify.breakpoint.width < 600 ? buttonDrawerClass : buttonClass]"
+        :disabled="canEdit"
         v-bind="attrs"
         v-on="on"
-        :disabled="canEdit"
       >
         <v-icon
           color="white"
@@ -56,18 +56,22 @@ export default {
       edit: false,
       editTask: '',
       buttonClass: 'button',
-      buttonDrawerClass: 'button-drawer'
+      buttonDrawerClass: 'between-button',
     }
   },
   methods: {
     async editedTask() {
       let id = this.indexTask
       let newText = this.editTask = this.name
-      await this.$store.dispatch('editTask', [id, {
-        text: newText
-      }])
-      this.edit = false
-      this.$store.state.tasks[id].text = newText
+      if (newText !== '') {
+        await this.$store.dispatch('editTask', [id, {
+          text: newText
+        }])
+        this.edit = false
+        this.$store.state.tasks[id].text = newText
+      } else {
+        alert('Type your task')
+      }
     },
   },
 }
@@ -79,14 +83,16 @@ export default {
   margin-right: 1.5em;
 }
 
-.button-drawer {
-  margin-left: 1em;
-}
-
 .margin-card {
   margin-right: 1em;
   margin-left: 1em;
   margin-bottom: -1em;
+}
+
+.between-button {
+  margin-top: 1em;
+  margin-left: 1em;
+  width: 170px;
 }
 
 </style>

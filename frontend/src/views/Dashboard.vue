@@ -30,6 +30,42 @@
     </v-row>
 
     <v-row class="justify-center">
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        temporary
+        app
+        width="200"
+      >
+        <v-list-item-group class="justify-center">
+          <v-btn
+            small
+            width="170"
+            class="button-drawer"
+            color="primary"
+            @click="doneTask(indexButton)"
+          >
+            <v-icon>mdi-check</v-icon>
+          </v-btn>
+          <v-list-item-group class="justify-center">
+            <editing-task :name='task.text' :can-edit='task.done' :indexTask="indexButton"/>
+          </v-list-item-group>
+          <v-list-item-group>
+            <v-btn
+              small
+              width="170"
+              color="red"
+              class="between-button"
+              @click="removeTask(indexButton)"
+            >
+              <v-icon
+                color="white"
+              >mdi-delete
+              </v-icon>
+            </v-btn>
+          </v-list-item-group>
+        </v-list-item-group>
+      </v-navigation-drawer>
       <v-col
         cols="8">
         <v-card
@@ -57,35 +93,6 @@
               >
                 <v-icon>mdi-menu</v-icon>
               </v-btn>
-
-              <v-navigation-drawer
-                v-model="drawer"
-                absolute
-                temporary
-              >
-                <v-list-item>
-                  <v-btn
-                    small
-                    class="button-drawer"
-                    color="primary"
-                    @click="doneTask(index)"
-                  >
-                    <v-icon>mdi-check</v-icon>
-                  </v-btn>
-                  <editing-task :name='task.text' :can-edit='task.done' :indexTask="index" class="button-edit"/>
-                  <v-btn
-                    small
-                    class="button-drawer"
-                    color="red"
-                    @click="removeTask(index)"
-                  >
-                    <v-icon
-                      color="white"
-                    >mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </v-list-item>
-              </v-navigation-drawer>
             </template>
 
 
@@ -98,7 +105,7 @@
               >
                 <v-icon>mdi-check</v-icon>
               </v-btn>
-              <editing-task :name='task.text' :can-edit='task.done'/>
+              <editing-task :name='task.text' :can-edit='task.done' :indexTask="index"/>
               <v-btn
                 class="button"
                 small
@@ -126,7 +133,7 @@ export default {
   name: "Dashboard",
   components: {EditingTask},
   watch: {
-    group () {
+    group() {
       this.drawer = false
     },
   },
@@ -136,7 +143,8 @@ export default {
       done: false,
       canEdit: true,
       drawer: null,
-      group: null
+      group: null,
+      indexButton: null
     }
   },
   computed: {
@@ -157,7 +165,7 @@ export default {
 
     openDrawer(index) {
       this.drawer = !this.drawer
-      console.log(index)
+      this.indexButton = index
     },
 
     async addTask() {
@@ -200,12 +208,13 @@ export default {
   margin-top: 2em;
 }
 
-.button-edit {
-  margin-top: 4.5em;
-  margin-left: 2em;
+.button-drawer {
+  margin-top: 20em;
+  margin-left: 1em;
 }
 
-.button-drawer {
+.between-button {
+  margin-top: 1em;
   margin-left: 1em;
 }
 
